@@ -1,35 +1,62 @@
 package estrutura_dados;
 
 import java.util.Arrays;
-import modelo.Aluno;
+
 
 public class Vetor {
-    private Aluno[] alunos = new Aluno[100];
-    private int qtdAlunos = 0;
+    private Object[] object = new Object[100];
+    private int qtdObjects = 0;
     
-    public void adiciona(Aluno aluno){
-       this.alunos[this.qtdAlunos] = aluno;
-       this.qtdAlunos++;
+    public void adiciona(Object aluno){
+       assegureEspaco();
+       this.object[this.qtdObjects] = aluno;
+       this.qtdObjects++;
     }
     
-    public Aluno adiciona(int posicao, Aluno aluno){
-        return null;
+    public void adiciona(int posicao, Object aluno){
+        assegureEspaco();
+        if(!this.posicaoValida(posicao)){
+            throw new IllegalArgumentException("Posição invalida");
+        }
+        
+        for(int i  = this.qtdObjects - 1; i >= posicao;i--){
+            this.object[i + 1] = this.object[i];
+        }
+        
+        this.object[posicao] = aluno;
+        this.qtdObjects++;
     }
     
     private boolean posicaoOcupada(int posicao){
-        return posicao >= 0 && posicao < this.qtdAlunos;
+        return posicao >= 0 && posicao < this.qtdObjects;
     }
     
-    public Aluno pega(int posicao){
+     private boolean posicaoValida(int posicao){
+        return posicao >= 0 && posicao <= this.qtdObjects;
+    }
+     
+    public void remove(int posicao){
+        if(!posicaoOcupada(posicao)){
+            throw new IllegalArgumentException("Posição invalida");
+        }
+        
+        for(int i = posicao; i < qtdObjects -1; i++){
+            object[i] = object[i + 1]; 
+        }
+        
+        this.qtdObjects--;
+    }
+    
+    public Object pega(int posicao){
         if(!posicaoOcupada(posicao))
             throw new IllegalArgumentException("Posição inválida");
         else 
-            return this.alunos[posicao]; 
+            return this.object[posicao]; 
     }
     
-    public boolean contem(Aluno aluno){
-       for(int i = 0; i < this.qtdAlunos; i++){
-           if(aluno.equals(this.alunos[i])){
+    public boolean contem(Object aluno){
+       for(int i = 0; i < this.qtdObjects; i++){
+           if(aluno.equals(this.object[i])){
                return true;
            }
        }
@@ -37,23 +64,33 @@ public class Vetor {
     }
     
     public int tamanho(){
-        return this.qtdAlunos;
+        return this.qtdObjects;
+    }
+    
+    private void assegureEspaco(){
+        if(this.object.length == this.qtdObjects){
+            Object[] novaLista = new Object[this.object.length * 2];
+            for(int i = 0; i < this.object.length; i++){
+                novaLista[i] = this.object[i];
+            }
+            this.object = novaLista;
+        }
     }
     
     public String toString(){
-      if(this.alunos.length == 0){
+      if(this.object.length == 0){
           return "[]";
       }
       
       StringBuilder builder = new StringBuilder();
       builder.append("[");
       
-      for(int i = 0; i < this.qtdAlunos - 1; i++){
-          builder.append(this.alunos[i]);
+      for(int i = 0; i < this.qtdObjects - 1; i++){
+          builder.append(this.object[i]);
           builder.append(", ");
       }
       
-      builder.append(this.alunos[this.qtdAlunos - 1]);
+      builder.append(this.object[this.qtdObjects - 1]);
       builder.append("]");
       
       return builder.toString();
