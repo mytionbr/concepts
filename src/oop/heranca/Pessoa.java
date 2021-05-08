@@ -1,18 +1,11 @@
-package oop;
+
+package oop.heranca;
 
 import java.time.LocalDate;
-import java.util.Date;
-/*
-    Na programação orientada a objetos, estados são a 
-    respresentação das informação contidas pelos atributos.
-    Já os comportamentos são os métodos que podem mudar o estado
-    dos atributos, podem retornar novos valores ou os valores presentes nos
-    atributos da classe.
-*/
 
 
+public class Pessoa {
 
-public class EstadoComportamento {
     public String nome;
     public LocalDate dataNascimento;
 
@@ -39,9 +32,4 @@ public class EstadoComportamento {
     }
 
  
-
-   
-    
-   
-     
 }
